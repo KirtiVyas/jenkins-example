@@ -5,18 +5,15 @@ pipeline{
 						git 'https://github.com/KirtiVyas/maven-project.git'}
 							}
 			
-				stage('Sonar Analysis'){steps{
+				stage('Sonar Package'){steps{
 				withSonarQubeEnv ('sonar'){
-			withMaven (maven: 'LocalMaven'){
-			sh 'mvn package'}
+			sh 'mvn sonar:sonar clean package'}
 			}
 				      }
 					       }
-				stage('install'){steps{
+				stage('Sonar Install'){steps{
 				withSonarQubeEnv ('sonar'){
-							withMaven (maven: 'LocalMaven'){
-								sh 'mvn install'}
-							}
+				sh 'mvn sonar:sonar clean install'							}
 							}
 							}
 			stage('deploy to tomcat'){steps
